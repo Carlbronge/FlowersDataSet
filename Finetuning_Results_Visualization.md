@@ -46,6 +46,7 @@ Visualizing
 tensor_plot(img_t)
 ```
 ![Unknown-9](https://github.com/Carlbronge/FlowersDataSet/assets/143009718/32e6bfca-0799-4fcd-9181-80c30247901e)
+
 Convulving
 ```
 f0 = F.conv2d(img_t, w0, stride=4, padding=2)
@@ -56,4 +57,4 @@ i = 5
 plt.imshow(f0[0,i,:,:].cpu().numpy())
 ```
 ![Unknown-10](https://github.com/Carlbronge/FlowersDataSet/assets/143009718/21e9544e-329d-467e-809b-929b313e979b)
-```
+
