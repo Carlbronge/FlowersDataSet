@@ -58,3 +58,57 @@ plt.imshow(f0[0,i,:,:].cpu().numpy())
 ```
 ![Unknown-10](https://github.com/Carlbronge/FlowersDataSet/assets/143009718/21e9544e-329d-467e-809b-929b313e979b)
 
+64 Different Applied Filters
+```
+ for i in range(64):
+     tensor_plot(w0,i)
+     plt.imshow(f0[0,i,:,:].cpu().numpy())
+     plt.show()
+```
+Filters Being Applied to A Feature Map
+```
+import torch
+import matplotlib.pyplot as plt
+
+def plot_feature_maps_with_filters(feature_maps, filters):
+    if feature_maps.dim() == 4:
+        feature_maps = feature_maps.squeeze(0)
+    feature_maps = (feature_maps - feature_maps.min()) / (feature_maps.max() - feature_maps.min())
+
+    def add_filter_to_feature_map(filter_tensor, feature_map_tensor):
+        if feature_map_tensor.dim() > 2:
+            feature_map_tensor = feature_map_tensor.squeeze(0)
+
+        feature_map_rgb = feature_map_tensor.unsqueeze(0).repeat((3, 1, 1))
+
+        filter_tensor = (filter_tensor - filter_tensor.min()) / (filter_tensor.max() - filter_tensor.min())
+
+        min_dim = min(feature_map_tensor.shape)
+        filter_size = min(filter_tensor.shape[-1], min_dim)
+
+        filter_cropped = filter_tensor[:, :filter_size, :filter_size]
+
+        feature_map_rgb[:, -filter_size:, :filter_size] = filter_cropped
+
+        feature_map_rgb = torch.clamp(feature_map_rgb, 0, 1)
+
+        return feature_map_rgb
+
+    fig, axes = plt.subplots(8, 8, figsize=(15, 15))
+
+    for ax, feature_map, filter_ in zip(axes.flat, feature_maps, filters):
+        modified_feature_map = add_filter_to_feature_map(filter_, feature_map)
+
+        ax.imshow(modified_feature_map.permute(1, 2, 0).cpu().numpy(), interpolation='none')
+        ax.axis('off')
+
+    plt.show()
+```
+Plotting the Feature Maps & Filters
+```
+plot_feature_maps_with_filters(f0, w0)
+```
+![Unknown-12](https://github.com/Carlbronge/FlowersDataSet/assets/143009718/2e156d54-0b8e-4d05-9c79-98724135ef37)
+
+
+
