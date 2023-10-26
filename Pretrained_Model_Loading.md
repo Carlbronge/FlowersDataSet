@@ -1,14 +1,14 @@
 ## Installs Necessary
 The following code is required to be installed before proceeding
 ```
+import pandas as pd
 import torch
-from torchvision import models, transforms
-import requests
-from PIL import Image
-import torch.nn.functional as F
+import torchvision
+import torchvision.transforms as transforms
+import torchvision.datasets as datasets
+from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
-
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+import numpy as np
 ```
 ## Data Preprocessing
 We first define the necessary transformations to apply to our dataset.
